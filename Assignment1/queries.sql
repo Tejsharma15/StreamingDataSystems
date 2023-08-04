@@ -1,0 +1,1 @@
+select m.c_id as campaignId, d.w_id as windowId, count(*) as count FROM data d INNER JOIN mappings m ON m.a_id = d.a_id GROUP BY m.c_id, d.w_id ORDER BY c_id, w_id;
