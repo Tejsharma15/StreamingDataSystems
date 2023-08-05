@@ -6,7 +6,7 @@ COPY mappings FROM '/home/tejas/Desktop/Academics/Sem7/SDS/StreamingDataSystems/
 
 
 CREATE TABLE data(
-event_time VARCHAR NOT NULL,
+event_time BIGINT NOT NULL,  
 w_id integer,
 rank integer,
 iteration integer,
