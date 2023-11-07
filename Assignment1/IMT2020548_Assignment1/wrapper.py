@@ -24,10 +24,11 @@ try:
         if(start_time <= upper_time + 10):  continue
         upper_time += 10
         startQuery_time = time.time()
+        print("Starting next query")
         query = """CREATE TABLE main_data_%s AS 
             SELECT event_time, w_id, rank, iteration, event_type, a_id
             FROM original_data
-            WHERE event_time >= %s AND event_time <= %s"""
+            WHERE event_time >= %s AND event_time <%s"""
         cursor.execute(query, (curr_timestamp, curr_timestamp, curr_timestamp+interval_milliseconds))
         query = """SELECT m.c_id as campaignId, %s as event_time, count(*) as count 
             FROM main_data_%s d 
@@ -50,10 +51,10 @@ try:
                 
                 # Write the row to the file
                 file.write(row_str + '\n')
-        loadProcess_time = time.time()
         # print('STARTING TIME: UPPER TIME FOR NEXT:', time.time(), upper_time+10)
         # print('NEXT STARTING TIME: %f, UPPER_TIME: %f', time.time(), upper_time+2)
-        # print("PROCESSING THIS TABLE TOOK: QUERY PROCESSING TIME: ", endProcess_time - loadProcess_time, endProcess_time-startQuery_time)
+        print("PROCESSING THIS TABLE TOOK: QUERY PROCESSING TIME: ", endProcess_time - loadProcess_time, endProcess_time-startQuery_time)
+        loadProcess_time = time.time()
     overall_end_processing_time = time.time()
     print("FINAL PROCESSING IS: ", overall_end_processing_time-overall_processing_time)
     print("THE LATENCY (ONLY TO COMPUTE THE QUERY IS)", query_processing_time)

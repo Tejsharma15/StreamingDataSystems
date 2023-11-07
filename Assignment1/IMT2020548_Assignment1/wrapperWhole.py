@@ -16,22 +16,21 @@ try:
     start_time = time.time()
     overall_processing_time = start_time
     query_processing_time = 0
-    # time.sleep((end_timestamp - start_timestamp)/1000)
-    time.sleep(1)
+    time.sleep((end_timestamp - start_timestamp)/1000)
+    # time.sleep(1)
     print("FULL DATA ARRIVED AT: ", time.time()-start_time)
     query = """CREATE TABLE main_data AS 
         SELECT event_time, w_id, rank, iteration, event_type, a_id
         FROM original_data"""
-    # print("LOADED DATA AT: ", time.time()-start_time)
+    print("LOADED DATA AT: ", time.time()-start_time)
     cursor.execute(query)
-    print("done BRO FUCK")
     query = """SELECT m.c_id as campaignId, floor(d.event_time/10000) as eventTime, count(*) as count 
                 FROM  main_data d INNER JOIN mappings m ON 
                 m.a_id = d.a_id WHERE d.event_type = 'click' 
                 GROUP BY m.c_id, eventTime 
                 ORDER BY m.c_id, eventTime asc;"""
-    print("done")
     cursor.execute(query)
+    print("Done selecting..")
     rows = cursor.fetchall()
     # Open the file for writing
     with open('full.txt', 'a') as file:
